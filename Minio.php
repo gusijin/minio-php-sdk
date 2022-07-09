@@ -196,6 +196,37 @@ class Minio
 
         return false;
     }
+    
+    /**
+     * 拷贝文件
+     * @param $fromObject 源文件
+     * @param $toObject 目标文件
+     * @return array|mixed {"code":200}
+     */
+    public function copyObject($fromObject, $toObject)
+    {
+        $fromObject = ltrim($fromObject, DIRECTORY_SEPARATOR);
+        $toObject = ltrim($toObject, DIRECTORY_SEPARATOR);
+
+        //判断目标bucket是否存在，不存在则创建
+        $toArr = explode(DIRECTORY_SEPARATOR, $toObject);
+        $toBucket = $toArr[0];
+        $listBuckets = $this->listBuckets();
+        $bucketArr = $listBuckets['data']['bucket'];
+        if (!in_array($toBucket, $bucketArr)) {
+            $this->createBucket($toBucket);
+        }
+
+        $request = (new Request('PUT', $this->endpoint, $toObject))
+            ->setHeaders(['x-amz-copy-source' => $fromObject])
+            ->setMultiCurl($this->multiCurl)
+            ->setCurlOpts($this->curlOpts)
+            ->sign($this->accessKey, $this->secretKey);
+
+        $res = $this->objectToArray($request->getResponse());
+
+        return $res;
+    }
 
     /**
      * bucket目录请求
