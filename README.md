@@ -1,13 +1,15 @@
 # minio-php-sdk
-minio php sdk
+php sdk for minio 
 
 
-### author
+# author
 gusijin
 
 
-### 简介
-php原生代码调用Api接口实现minio资源存储释放等方面的应用
+# brief introduction
+PHP native code calls API interface to realize the application of Minio resource storage and release
 
-php实现操作文件上传，删除相关功能，bucket创建，删除，查询操作
+PHP realizes the functions of uploading and deleting operation files, creating, deleting and querying buckets
+
+
 
