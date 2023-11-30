@@ -18,6 +18,9 @@ class Request
         $this->uri = $uri;
         $url = parse_url($endpoint);
         $this->endpoint = $url['host'];
+        if (!empty($url['port'])) {
+            $this->endpoint = $url['host'] . ':' . $url['port'];
+        }
         $url['scheme'] === 'http' || $this->secure = true;
         $this->headers = [
             'Content-MD5' => '',
